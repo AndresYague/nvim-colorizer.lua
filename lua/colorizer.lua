@@ -69,15 +69,6 @@ local DEFAULT_OPTIONS = {
 	vtext    = '■';
 }
 
--- -- TODO use rgb as the return value from the matcher functions
--- -- instead of the rgb_hex. Can be the highlight key as well
--- -- when you shift it left 8 bits. Use the lower 8 bits for
--- -- indicating which highlight mode to use.
--- ffi.cdef [[
--- typedef struct { uint8_t r, g, b; } colorizer_rgb;
--- ]]
--- local rgb_t = ffi.typeof 'colorizer_rgb'
-
 -- Create a lookup table where the bottom 4 bits are used to indicate the
 -- category and the top 4 bits are the hex value of the ASCII byte.
 local BYTE_CATEGORY = ffi.new 'uint8_t[256]'
@@ -226,8 +217,8 @@ local function rgb_hex_parser(line, i, minlen, maxlen)
 	return length, line:sub(i+1, i+length-1)
 end
 
--- TODO consider removing the regexes here
--- TODO this might not be the best approach to alpha channel.
+-- TODO: consider removing the regexes here
+-- this might not be the best approach to alpha channel.
 -- Things like pumblend might be useful here.
 local css_fn = {}
 do
@@ -340,7 +331,7 @@ end
 
 local function create_highlight(rgb_hex, options)
 	local mode = options.mode or 'background'
-	-- TODO validate rgb format?
+	-- TODO: validate rgb format?
 	rgb_hex = rgb_hex:lower()
 	local cache_key = table.concat({HIGHLIGHT_MODE_NAMES[mode], rgb_hex}, "_")
 	local highlight_name = HIGHLIGHT_CACHE[cache_key]
@@ -459,7 +450,7 @@ buffer `buf` and attach it to the namespace `ns`.
 @see setup
 ]]
 local function highlight_buffer(buf, ns, lines, line_start, options)
-	-- TODO do I have to put this here?
+	-- TODO: do I have to put this here?
 	initialize_trie()
 	ns = ns or DEFAULT_NAMESPACE
 	local loop_parse_fn = make_matcher(options)
@@ -632,7 +623,7 @@ local function setup(filetypes, user_default_options)
 				SETUP_SETTINGS.exclusions[filetype:sub(2)] = true
 			else
 				FILETYPE_OPTIONS[filetype] = options
-				-- TODO What's the right mode for this? BufEnter?
+				-- TODO: What's the right mode for this? BufEnter?
 				nvim.ex.autocmd("FileType", filetype, "lua COLORIZER_SETUP_HOOK()")
 			end
 		end

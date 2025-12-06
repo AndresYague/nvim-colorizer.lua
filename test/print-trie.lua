@@ -1,4 +1,4 @@
--- TODO this is kinda shitty
+-- TODO: this is kinda shitty
 local function dirname(str,sep)
 	sep=sep or'/'
 	return str:match("(.*"..sep..")")
