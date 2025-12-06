@@ -433,6 +433,8 @@ local function add_highlight(options, buf, ns, data)
 			for _, hl in ipairs(hls) do
 				table.insert(chunks, {options.vtext, hl.name})
 			end
+      -- FIXME: Once added, virtual text is not removed! Try with below
+      -- Blue
 			nvim_buf_set_virtual_text(buf, ns, linenr, chunks, {})
 		end
 	end
